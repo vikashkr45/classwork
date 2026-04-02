@@ -1,0 +1,144 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\gauta> docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=my-secret-pw -e MYSQL_DATABASE=mydb -p 3306:3306 -d mysql:latest
+Unable to find image 'mysql:latest' locally
+latest: Pulling from library/mysql
+660dee12630a: Pull complete
+3a83832a6208: Pull complete
+dc0ae5ec7f3c: Pull complete
+f7eb4be426a1: Pull complete
+7ef200aee2ac: Pull complete
+c75b6f683cbd: Pull complete
+fc3bc5fe2030: Pull complete
+ad38d99426c5: Pull complete
+4e3633ebbb73: Pull complete
+32f88ec2712b: Download complete
+697c144a0375: Download complete
+Digest: sha256:24e450bbd24f621c71b10404c946cc9ea1cbb0e6e7464b2be2de5193dcf1d05b
+Status: Downloaded newer image for mysql:latest
+c4f7dc6189f6afe8ee8e3468b022929744fe24a1d39e16ed9368ed18ef158661
+PS C:\Users\gauta> docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS                                     
+    NAMES
+c4f7dc6189f6   mysql:latest   "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes   0.0.0.0:3306->3306/tcp, [::]:3306->3306/tcp   mysql-container
+PS C:\Users\gauta> docker exec -it mysql-container mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 9.6.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mydb               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.065 sec)
+
+mysql>USE mydb;
+Database changed
+mysql>CREATE TABLE students (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     name VARCHAR(50),
+    ->     age INT,
+    ->     course VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.086 sec)
+
+mysql>SHOW TABLES;
++----------------+
+| Tables_in_mydb |
++----------------+
+| students       |
++----------------+
+1 row in set (0.003 sec)
+
+mysql>INSERT INTO students (name, age, course) VALUES 
+    -> ('Gautam', 21, 'BTech'),
+    -> ('Rahul', 22, 'BCA'),
+    -> ('Ankit', 20, 'BSc');
+Query OK, 3 rows affected (0.044 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql>SELECT * FROM students;
++----+--------+------+--------+
+| id | name   | age  | course |
++----+--------+------+--------+
+|  1 | Gautam |   21 | BTech  |
+|  2 | Rahul  |   22 | BCA    |
+|  3 | Ankit  |   20 | BSc    |
++----+--------+------+--------+
+3 rows in set (0.004 sec)
+
+mysql>SELECT name FROM students WHERE age > 20;
++--------+
+| name   |
++--------+
+| Gautam |
+| Rahul  |
++--------+
+2 rows in set (0.002 sec)
+
+mysql>UPDATE students 
+    -> SET course = 'MCA'
+    -> WHERE name = 'Rahul';
+Query OK, 1 row affected (0.035 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql>DELETE FROM students WHERE name = 'Ankit';
+Query OK, 1 row affected (0.010 sec)
+
+mysql>DESCRIBE students;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| id     | int         | NO   | PRI | NULL    | auto_increment |
+| name   | varchar(50) | YES  |     | NULL    |                |
+| age    | int         | YES  |     | NULL    |                |
+| course | varchar(50) | YES  |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+4 rows in set (0.011 sec)
+
+mysql>SELECT COUNT(*) FROM students;
++----------+
+| COUNT(*) |
++----------+
+|        2 |
++----------+
+1 row in set (0.017 sec)
+
+mysql>SELECT * FROM students ORDER BY age DESC;
++----+--------+------+--------+
+| id | name   | age  | course |
++----+--------+------+--------+
+|  2 | Rahul  |   22 | MCA    |
+|  1 | Gautam |   21 | BTech  |
++----+--------+------+--------+
+2 rows in set (0.005 sec)
+
+mysql> SELECT * FROM students WHERE name LIKE 'G%';
++----+--------+------+--------+
+| id | name   | age  | course |
++----+--------+------+--------+
+|  1 | Gautam |   21 | BTech  |
++----+--------+------+--------+
+1 row in set (0.002 sec)
+
+mysql> EXIT;
+Bye
+PS C:\Users\gauta>
