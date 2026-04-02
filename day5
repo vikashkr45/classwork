@@ -1,0 +1,15 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\gauta> docker run -it --name ubuntu-test -e college=cse ubuntu
+docker: Error response from daemon: Conflict. The container name "/ubuntu-test" is already in use by container "c668fbab672478d01677f4decd1aebd7a991c6e5f7e1452849df56486b239af6". You have to remove (or rename) that container to be able to reuse that name.
+
+Run 'docker run --help' for more information
+PS C:\Users\gauta> docker run -it --name ubuntu-hello -e college=cse ubuntu
+root@642446ef0011:/# echo $college
+cse
+root@642446ef0011:/# exit
+exit
+PS C:\Users\gauta>              
